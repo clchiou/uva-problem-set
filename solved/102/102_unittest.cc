@@ -1,8 +1,6 @@
 #define main _main
 #include "102.cc"
 
-#include <sstream>
-
 #include "gtest/gtest.h"
 
 #include "test_fixtures.h"
