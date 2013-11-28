@@ -17,7 +17,7 @@ UNITTESTS := $(subst .cc,,$(filter     %_unittest.cc,$(wildcard *.cc)))
 
 
 CXX := g++
-CXXFLAGS := -lm -lcrypt -O2 -pipe -Wall -Werror
+CXXFLAGS := -lm -lcrypt -O2 -pipe -Wall -Werror -std=c++98
 GTEST_CXXFLAGS := -isystem ${GTEST_DIR}/include ${GTEST_DIR}/src/gtest_main.cc
 UNITTEST_CXXFLAGS := $(CXXFLAGS) $(GTEST_CXXFLAGS) -I$(UVA_ROOT)
 GTEST_LDFLAGS := -pthread -L${GTEST_DIR} -lgtest
