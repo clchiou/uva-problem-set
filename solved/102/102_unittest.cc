@@ -37,7 +37,8 @@ TEST(Test102, TestCountMove) {
 }
 
 static void Compare(const Bin bins[3],
-    int min_move, const std::string &min_order) {
+                    int min_move,
+                    const std::string& min_order) {
   int min_move_out = 0;
   Color min_order_out[3];
   FindMinMove(bins, &min_move_out, min_order_out);
@@ -70,6 +71,4 @@ TEST(Test102, TestFindMinMoveAlphabetically) {
   Compare(bins, 6, "BCG");
 }
 
-TEST_F(IntegrationTest, TestSampleData) {
-  RunTestData(_main, "fin1", "fout1");
-}
+TEST_F(IntegrationTest, TestSampleData) { RunTestData(_main, "fin1", "fout1"); }

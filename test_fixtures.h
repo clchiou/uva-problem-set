@@ -12,21 +12,18 @@ class IntegrationTest : public ::testing::Test {
   IntegrationTest()
       : cin_buf_(std::cin.rdbuf()), cout_buf_(std::cout.rdbuf()) {}
 
-  virtual ~IntegrationTest() {
-    RedirectIO();
-  }
+  virtual ~IntegrationTest() { RedirectIO(); }
 
   void RedirectIO(std::streambuf* in, std::streambuf* out) {
     std::cin.rdbuf(in);
     std::cout.rdbuf(out);
   }
 
-  void RedirectIO() {
-    RedirectIO(cin_buf_, cout_buf_);
-  }
+  void RedirectIO() { RedirectIO(cin_buf_, cout_buf_); }
 
   void RunTestData(int (*main_function)(),
-      const std::string& input_path, const std::string& output_path) {
+                   const std::string& input_path,
+                   const std::string& output_path) {
     std::ifstream input;
     input.open(input_path.c_str());
 
@@ -56,4 +53,4 @@ class IntegrationTest : public ::testing::Test {
   std::streambuf* cout_buf_;
 };
 
-#endif // TEST_FIXTURES_H_
+#endif  // TEST_FIXTURES_H_

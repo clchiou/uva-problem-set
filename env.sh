@@ -38,6 +38,16 @@ function t() {
 }
 
 
+# Check C++ style
+function style() {
+  if [ -z "$1" ]; then
+    echo "Usage: style file.cc"
+    return 1
+  fi
+  vimdiff "$1" <(clang-format -style=Chromium "$1")
+}
+
+
 # Run presubmit tests
 function presubmit() {
   if [ -z "$1" ]; then

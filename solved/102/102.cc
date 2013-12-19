@@ -9,7 +9,7 @@
 enum Color {
   BROWN,
   GREEN,
-  CLEAR,
+  CLEAR
 };
 
 class Bin {
@@ -18,7 +18,7 @@ class Bin {
   Bin(int brown, int green, int clear)
       : brown_(brown), green_(green), clear_(clear) {}
 
-  friend std::istream &operator>>(std::istream &in, Bin &bin) {
+  friend std::istream& operator>>(std::istream& in, Bin& bin) {
     in >> bin.brown_ >> bin.green_ >> bin.clear_;
     return in;
   }
@@ -46,9 +46,9 @@ int CountMove(const Bin bins[3], const Color order[3]) {
   return move;
 }
 
-void FindMinMove(const Bin bins[3], int *min_move_out, Color min_order[3]) {
+void FindMinMove(const Bin bins[3], int* min_move_out, Color min_order[3]) {
   // Alphabetical order.
-  const Color all_colors[] = { BROWN, CLEAR, GREEN };
+  const Color all_colors[] = {BROWN, CLEAR, GREEN};
   const int permutations[][3] = {
     { 0, 1, 2 },
     { 0, 2, 1 },
@@ -59,7 +59,7 @@ void FindMinMove(const Bin bins[3], int *min_move_out, Color min_order[3]) {
   };
   const int size = sizeof(permutations) / sizeof(permutations[0]);
 
-  const int *min_p = NULL;
+  const int* min_p = NULL;
   int min_move = 0;
   for (int i = 0; i < size; i++) {
     const Color order[3] = {

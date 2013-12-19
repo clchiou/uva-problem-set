@@ -8,7 +8,7 @@
 
 enum {
   LEFT_PARENTHESES = '(',
-  RIGHT_PARENTHESES = ')',
+  RIGHT_PARENTHESES = ')'
 };
 
 static std::istream& GetChar(std::istream& in, char* c_out) {

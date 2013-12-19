@@ -8,12 +8,12 @@
 
 #include "test_fixtures.h"
 
-static void Input(const std::string &input, int* n_out, Matrix m) {
+static void Input(const std::string& input, int* n_out, Matrix m) {
   std::stringstream in(input);
   ReadMatrix(in, n_out, m);
 }
 
-static void Output(int n, Matrix m, std::ostream &out) {
+static void Output(int n, Matrix m, std::ostream& out) {
   for (int i = 0; i <= n; i++) {
     out << m[i][0];
     for (int j = 1; j <= n; j++) {
@@ -23,7 +23,7 @@ static void Output(int n, Matrix m, std::ostream &out) {
   }
 }
 
-static void Compare(int n, Matrix actual, const std::string &expected) {
+static void Compare(int n, Matrix actual, const std::string& expected) {
   std::stringstream act;
   Output(n, actual, act);
   ASSERT_EQ(expected, act.str());
@@ -33,17 +33,20 @@ TEST(Test108, TestComputeIntegralImage) {
   int n;
   Matrix matrix, integral_image;
 
-  Input("3\n"
+  Input(
+      "3\n"
       "1 2 3\n"
       "4 5 6\n"
       "7 8 9\n",
-      &n, matrix);
+      &n,
+      matrix);
   ComputeIntegralImage(n, matrix, integral_image);
-  Compare(n, integral_image,
-      "0 0 0 0\n"
-      "0 1 3 6\n"
-      "0 5 12 21\n"
-      "0 12 27 45\n");
+  Compare(n,
+          integral_image,
+          "0 0 0 0\n"
+          "0 1 3 6\n"
+          "0 5 12 21\n"
+          "0 12 27 45\n");
 
   n = N_MAX;
   for (int i = 1; i <= n; i++) {
@@ -79,13 +82,8 @@ TEST(Test108, TestComputeRectangleSum) {
   ComputeIntegralImage(n, matrix, integral_image);
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
-      Rectangle rect = {
-        .x1 = i,
-        .y1 = j,
-        .x2 = i,
-        .y2 = j,
-      };
-      ASSERT_EQ(matrix[i][j], ComputeRectangleSum(n, integral_image, rect));
+      Rectangle rect = {i, j, i, j};
+      ASSERT_EQ(matrix[i][j], ComputeRectangleSum(integral_image, rect));
     }
   }
 }

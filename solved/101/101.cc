@@ -10,7 +10,7 @@
 #include <assert.h>
 
 enum {
-  MAX_TABLE_LENGTH = 25,
+  MAX_TABLE_LENGTH = 25
 };
 
 class BlockWorld {
@@ -33,7 +33,7 @@ class BlockWorld {
     command_stream >> command >> block_a >> preposition >> block_b;
 
     if (block_a == block_b) {
-      return; // Illegal command.
+      return;  // Illegal command.
     }
 
     int stack_a = Find(block_a);
@@ -43,7 +43,7 @@ class BlockWorld {
     assert(stack_b != -1);
 
     if (stack_a == stack_b) {
-      return; // Illegal command.
+      return;  // Illegal command.
     }
 
     if (command == "move" && preposition == "onto") {
@@ -55,13 +55,13 @@ class BlockWorld {
     } else if (command == "pile" && preposition == "over") {
       PileOver(block_a, block_b, stack_a, stack_b);
     } else {
-      assert(0); // Syntax error.
+      assert(0);  // Syntax error.
     }
   }
 
   int Find(int block) {
     for (int pos = 0; pos < num_blocks_; pos++) {
-      const std::vector<int> &stack = table[pos];
+      const std::vector<int>& stack = table[pos];
       if (stack.end() != find(stack.begin(), stack.end(), block)) {
         return pos;
       }
@@ -75,7 +75,7 @@ class BlockWorld {
     MoveTopBlock(stack_a, stack_b);
   }
 
-  void MoveOver(int block_a, int block_b, int stack_a, int stack_b) {
+  void MoveOver(int block_a, int, int stack_a, int stack_b) {
     ReturnBlocksAbove(stack_a, block_a);
     MoveTopBlock(stack_a, stack_b);
   }
@@ -85,7 +85,7 @@ class BlockWorld {
     MoveBlocks(stack_a, stack_b, block_a);
   }
 
-  void PileOver(int block_a, int block_b, int stack_a, int stack_b) {
+  void PileOver(int block_a, int, int stack_a, int stack_b) {
     MoveBlocks(stack_a, stack_b, block_a);
   }
 
@@ -118,10 +118,10 @@ class BlockWorld {
     table[stack_from].pop_back();
   }
 
-  void Output(std::ostream &out) const {
+  void Output(std::ostream& out) const {
     for (int i = 0; i < num_blocks_; i++) {
       out << i << ':';
-      const std::vector<int> &stack = table[i];
+      const std::vector<int>& stack = table[i];
       for (const_iterator b = stack.begin(), e = stack.end(); b != e; ++b) {
         out << ' ' << *b;
       }

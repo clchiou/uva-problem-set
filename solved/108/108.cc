@@ -10,7 +10,7 @@
 enum {
   N_MAX = 100,
   V_MAX = 127,
-  V_MIN = -127,
+  V_MIN = -127
 };
 
 // Reserve 1 row & column as sentinels.
@@ -51,7 +51,7 @@ void ComputeIntegralImage(int n, Matrix matrix, Matrix integral_image) {
   }
 }
 
-int ComputeRectangleSum(int n, Matrix integral_image, const Rectangle &rect) {
+int ComputeRectangleSum(Matrix integral_image, const Rectangle& rect) {
   return
       integral_image[rect.x2    ][rect.y2    ]
     - integral_image[rect.x1 - 1][rect.y2    ]
@@ -59,8 +59,10 @@ int ComputeRectangleSum(int n, Matrix integral_image, const Rectangle &rect) {
     + integral_image[rect.x1 - 1][rect.y1 - 1];
 }
 
-void FindMaximalSubRectangle(int n, Matrix matrix,
-    int* sum_out, Rectangle* rect_out) {
+void FindMaximalSubRectangle(int n,
+                             Matrix matrix,
+                             int* sum_out,
+                             Rectangle* rect_out) {
   Matrix integral_image;
   ComputeIntegralImage(n, matrix, integral_image);
 
@@ -71,13 +73,8 @@ void FindMaximalSubRectangle(int n, Matrix matrix,
     for (int y1 = 1; y1 <= n; y1++) {
       for (int x2 = x1; x2 <= n; x2++) {
         for (int y2 = y1; y2 <= n; y2++) {
-          Rectangle rect = {
-            .x1 = x1,
-            .y1 = y1,
-            .x2 = x2,
-            .y2 = y2,
-          };
-          int sum = ComputeRectangleSum(n, integral_image, rect);
+          Rectangle rect = {x1, y1, x2, y2};
+          int sum = ComputeRectangleSum(integral_image, rect);
           if (sum > max_sum) {
             max_sum = sum;
             max_rect = rect;
