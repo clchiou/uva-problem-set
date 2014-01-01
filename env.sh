@@ -44,7 +44,7 @@ function style() {
     echo "Usage: style file.cc"
     return 1
   fi
-  vimdiff "$1" <(clang-format -style=Chromium "$1")
+  vimdiff -R "$1" <(clang-format -style=Chromium "$1")
 }
 
 
