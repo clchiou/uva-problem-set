@@ -39,7 +39,7 @@ $(UNITTESTS) : %_unittest : %_unittest.cc %.cc
 
 
 $(SOLUTIONS) : % : %.cc
-	$(CXX) $(CXXFLAGS) -DONLINE_JUDGE -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 
 .PHONY: all clean
