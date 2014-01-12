@@ -12,10 +12,17 @@ int main() {
   const int g = 34943;
 
   for (std::string line; std::getline(std::cin, line) && line[0] != '#';) {
+    // Compute m.
     int m = 0;
     for (const auto c : line)
       m = ((m << 8) + c) % g;
-    int m2 = m << 16;
+
+    // Safely shift 2 bytes left.
+    int m2 = m;
+    m2 = (m2 << 8) % g;
+    m2 = (m2 << 8) % g;
+
+    // Compute CRC.
     int crc = (g - m2 % g) % g;
     std::cout << Format(crc >> 8) << ' ' << Format(crc & 0xff) << std::endl;
   }
