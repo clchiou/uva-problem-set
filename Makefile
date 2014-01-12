@@ -8,7 +8,7 @@
 
 
 ifndef GTEST_DIR
-$(error GTEST_DIR is not defined)
+$(warning GTEST_DIR is not defined)
 endif
 
 ifndef UVA_ROOT
@@ -34,8 +34,10 @@ clean:
 	rm -f $(SOLUTIONS) $(UNITTESTS)
 
 
+ifdef GTEST_DIR
 $(UNITTESTS) : %_unittest : %_unittest.cc %.cc
 	$(CXX) $(UNITTEST_CXXFLAGS) -o $@ $< $(GTEST_LDFLAGS)
+endif
 
 
 $(SOLUTIONS) : % : %.cc
