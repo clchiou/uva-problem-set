@@ -22,6 +22,8 @@ function t() {
   local UNITTESTS=("$@")
   local UNITTEST=
 
+  m unittests
+
   if [ "${#UNITTESTS[@]}" -eq 0 ]; then
     for UNITTEST in *_unittest; do
       if [ -f ${UNITTEST} ]; then
@@ -44,7 +46,8 @@ function style() {
     echo "Usage: style file.cc"
     return 1
   fi
-  vimdiff -R "$1" <(clang-format -style=Chromium "$1")
+  local STYLE='{BasedOnStyle: Chromium, Standard: Cpp11}'
+  vimdiff -R "$1" <(clang-format -style="${STYLE}" "$1")
 }
 
 
@@ -55,7 +58,9 @@ function presubmit() {
     return 1
   fi
 
-  local PROGRAM="./${1%.cc}"
+  m presubmit
+
+  local PROGRAM="./${1%.cc}_presubmit"
   if [ ! -x "${PROGRAM}" ]; then
     echo "${PROGRAM} is not an executable"
     return 1
@@ -65,6 +70,9 @@ function presubmit() {
   local INPUT_PATH=
   local OUTPUT_PATH=
   for INPUT_PATH in *in*; do
+    if [ -x "${INPUT_PATH}" ]; then
+      continue
+    fi
     OUTPUT_PATH="$(echo ${INPUT_PATH} | sed -e 's/in/out/')"
     if ! ${PROGRAM} < ${INPUT_PATH} | diff -q ${OUTPUT_PATH} - ; then
       ${PROGRAM} < ${INPUT_PATH} | diff -y ${OUTPUT_PATH} -

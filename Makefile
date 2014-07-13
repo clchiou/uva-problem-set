@@ -18,6 +18,7 @@ endif
 
 SOLUTIONS := $(subst .cc,,$(filter-out %_unittest.cc,$(wildcard *.cc)))
 UNITTESTS := $(subst .cc,,$(filter     %_unittest.cc,$(wildcard *.cc)))
+PRESUBMIT := $(addsuffix _presubmit,$(SOLUTIONS))
 
 
 CXX := g++
@@ -27,11 +28,17 @@ UNITTEST_CXXFLAGS := $(CXXFLAGS) $(GTEST_CXXFLAGS) -I$(UVA_ROOT)
 GTEST_LDFLAGS := -pthread -L${GTEST_DIR} -lgtest
 
 
-all: $(SOLUTIONS) $(UNITTESTS)
+all: $(SOLUTIONS)
+
+
+unittests: $(UNITTESTS)
+
+
+presubmit: $(PRESUBMIT)
 
 
 clean:
-	rm -f $(SOLUTIONS) $(UNITTESTS)
+	rm -f $(SOLUTIONS) $(UNITTESTS) $(PRESUBMIT)
 
 
 ifdef GTEST_DIR
@@ -41,7 +48,10 @@ endif
 
 
 $(SOLUTIONS) : % : %.cc
-	$(CXX) $(CXXFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -g -o $@ $<
+
+$(PRESUBMIT) : %_presubmit : %.cc
+	$(CXX) $(CXXFLAGS) -DONLINE_JUDGE -o $@ $<
 
 
-.PHONY: all clean
+.PHONY: all unittests presubmit clean
