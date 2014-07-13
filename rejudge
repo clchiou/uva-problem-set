@@ -27,7 +27,7 @@ def main(args):
                 continue
             print '# JUDGE %s' % dirname
             path = os.path.join(dirpath, dirname)
-            run_command('make -f %s all' % makefile, path)
+            run_command('make -f %s unittests' % makefile, path)
             run_tests(path)
             run_command('make -f %s clean' % makefile, path)
     return 0
