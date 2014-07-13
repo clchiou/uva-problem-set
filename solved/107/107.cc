@@ -275,10 +275,10 @@ int PrimeSequence::Next() {
 
 bool PrimeSequence::IsPrime(int n) const {
   for (int p : primes_) {
-    if (n % p == 0)
-      return false;
     if (p * p > n)
       break;
+    if (n % p == 0)
+      return false;
   }
   return true;
 }
