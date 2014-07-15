@@ -142,9 +142,9 @@ def main(argv):
     '''main().'''
     programs = {
         'factorize': program_factorize,
-        'is_prime': program_is_prime,
-        'list_factors': program_list_factors,
-        'next_prime': program_next_prime,
+        'is-prime': program_is_prime,
+        'list-factors': program_list_factors,
+        'next-prime': program_next_prime,
     }
     return programs[os.path.basename(argv[0])](argv)
 
