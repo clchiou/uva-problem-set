@@ -19,48 +19,29 @@ function m() {
 
 # Run unit tests
 function t() {
-  local UNITTESTS=("$@")
-  local UNITTEST=
+  local INPUT="$(default_input $1)"
 
-  m unittests
+  m unittests || return 1
 
-  if [ "${#UNITTESTS[@]}" -eq 0 ]; then
-    for UNITTEST in *_unittest; do
-      if [ -f ${UNITTEST} ]; then
-        UNITTESTS+=(${UNITTEST})
-      fi
-    done
-  fi
-
-  local PASSED=()
-  for UNITTEST in ${UNITTESTS[@]}; do
-    ./${UNITTEST} && PASSED+=(${UNITTEST})
-  done
-  test ${#PASSED[@]} -eq ${#UNITTESTS[@]}
+  ./${INPUT}_unittest
 }
 
 
 # Check C++ style
 function style() {
-  if [ -z "$1" ]; then
-    echo "Usage: style file.cc"
-    return 1
-  fi
+  local INPUT="$(default_input $1)"
   local STYLE='{BasedOnStyle: Chromium, Standard: Cpp11}'
-  vimdiff -R "$1" <(clang-format -style="${STYLE}" "$1")
+  vimdiff -R "${INPUT}.cc" <(clang-format -style="${STYLE}" "${INPUT}.cc")
 }
 
 
 # Run presubmit tests
 function presubmit() {
-  if [ -z "$1" ]; then
-    echo "Usage: presubmit file{.cc}"
-    return 1
-  fi
+  local INPUT="$(default_input $1)"
 
-  m presubmit
+  m presubmit || return 1
 
-  local PROGRAM="./${1%.cc}_presubmit"
+  local PROGRAM="./${INPUT}_presubmit"
   if [ ! -x "${PROGRAM}" ]; then
     echo "${PROGRAM} is not an executable"
     return 1
@@ -85,4 +66,13 @@ function presubmit() {
   fi
 
   return $RET
+}
+
+
+function default_input() {
+  if [ -n "$1" ]; then
+    echo "${1%.cc}"
+  else
+    basename $(pwd)
+  fi
 }
