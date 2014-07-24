@@ -28,19 +28,16 @@ class PrimitivePythagoreanTriples {
   int c() const;
 
  private:
-  static int ComputeLeastValue(int x);
   bool NextBase();
 
   CoprimeSequence sequence_;
-  int upper_limit_;
-  // Use long long to avoid overflow.
-  long long a_, b_, c_;
+  int upper_limit_, a_, b_, c_;
 };
 
 bool IsOddNumber(int n) { return n & 1; }
 bool IsEvenNumber(int n) { return !IsOddNumber(n); }
 
-void MinMax(long long* p, long long* q) {
+void MinMax(int* p, int* q) {
   if (*p > *q) {
     std::swap(*p, *q);
   }
@@ -85,19 +82,13 @@ bool CoprimeSequence::Next() {
 int CoprimeSequence::base() const { return base_; }
 int CoprimeSequence::coprime() const { return coprime_; }
 
-// The least value of 'a' that Euclid's formula can generate.
-int PrimitivePythagoreanTriples::ComputeLeastValue(int x) {
-  return std::min({// Case m = x: Let n = 1 or 2.
-                   x * x - 2 * 2, 2 * x * 1,
-                   // Case n = x: Let m = n + 1.
-                   (x + 1) * (x + 1) - x * x, 2 * (x + 1) * x, });
-}
-
 PrimitivePythagoreanTriples::PrimitivePythagoreanTriples(int upper_limit)
     : sequence_(2), upper_limit_(upper_limit), a_(0), b_(0), c_(0) {}
 
 bool PrimitivePythagoreanTriples::Next() {
-  if (ComputeLeastValue(sequence_.base()) > upper_limit_) {
+  // The least value of 'c' that Euclid's formula can generate.
+  // If it is still greater than upper_limit, we are done.
+  if (sequence_.base() * sequence_.base() + 1 * 1 > upper_limit_) {
     return false;
   }
 
@@ -107,10 +98,10 @@ bool PrimitivePythagoreanTriples::Next() {
   }
 
   // Use Euclid's formula for generating (primitive) Pythagorean triples
-  // such that a < b < c <= upper_limit.  Use long long to avoid overflow.
-  long long n = sequence_.base(), m = sequence_.coprime();
+  // such that a < b < c <= upper_limit.
+  int n = sequence_.base(), m = sequence_.coprime();
   MinMax(&n, &m);
-  long long a = m * m - n * n, b = 2 * m * n, c = m * m + n * n;
+  int a = m * m - n * n, b = 2 * m * n, c = m * m + n * n;
   MinMax(&a, &b);
 
   if (c > upper_limit_) {
