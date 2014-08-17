@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ ! -x './136' ]; then
+  echo 'Missing ./136'
+  exit 1
+fi
+
+diff <(./uglynumbers.py 1499 | cut -d' ' -f1) <(./136 2>&1 > /dev/null)
+if [ "$?" -eq 0 ]; then
+  echo 'Output of ./uglynumbers.py and ./136 are the same.'
+else
+  echo 'Output of ./uglynumbers.py and ./136 are different.'
+fi
