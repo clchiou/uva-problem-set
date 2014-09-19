@@ -54,6 +54,10 @@ function presubmit() {
     if [ -x "${INPUT_PATH}" ]; then
       continue
     fi
+    if echo "${INPUT_PATH}" | grep -q '.*\.cc'; then
+      continue
+    fi
+    echo "Test case: $INPUT_PATH"
     OUTPUT_PATH="$(echo ${INPUT_PATH} | sed -e 's/in/out/')"
     if ! ${PROGRAM} < ${INPUT_PATH} | diff -q ${OUTPUT_PATH} - ; then
       ${PROGRAM} < ${INPUT_PATH} | diff -y ${OUTPUT_PATH} -
