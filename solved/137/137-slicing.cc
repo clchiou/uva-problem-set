@@ -21,7 +21,7 @@ enum {
   if (DEBUG) \
   std::cerr
 
-// Cordinate range 1 <= x, y <= 99.  For the convenience of testing, also
+// Coordinate range 1 <= x, y <= 99.  For the convenience of testing, also
 // include 0.
 enum { X_MIN = -1, X_MAX = 100, Y_MIN = -1, Y_MAX = 100, };
 
